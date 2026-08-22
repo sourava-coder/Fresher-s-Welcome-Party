@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresher's Welcome Party</title>
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep: #0a0f1f;
+    --navy: #12213d;
+    --indigo: #1c2d52;
+    --gold: #d8b877;
+    --gold-soft: #f0dfb0;
+    --teal: #5fd8cf;
+    --glass: rgba(255,255,255,0.07);
+    --glass-border: rgba(255,255,255,0.16);
+    --text-main: #f5f6fa;
+    --text-soft: rgba(245,246,250,0.66);
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    background:
+      radial-gradient(circle at 12% 15%, rgba(216,184,119,0.14), transparent 45%),
+      radial-gradient(circle at 88% 12%, rgba(95,216,207,0.12), transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(28,45,82,0.55), transparent 55%),
+      linear-gradient(165deg, #10192f 0%, var(--navy-deep) 55%, #070b16 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* subtle ambient blobs */
+  .blob{
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.28;
+    z-index: 0;
+    animation: float 20s ease-in-out infinite;
+  }
+  .blob1{ width: 340px; height: 340px; background: var(--gold); top: -100px; left: -110px; animation-delay: 0s; }
+  .blob2{ width: 280px; height: 280px; background: var(--teal); top: 45%; right: -100px; animation-delay: 4s; }
+  .blob3{ width: 300px; height: 300px; background: var(--indigo); bottom: -110px; left: 25%; animation-delay: 8s; }
+
+  @keyframes float{
+    0%,100%{ transform: translateY(0) translateX(0) scale(1); }
+    50%{ transform: translateY(-22px) translateX(14px) scale(1.05); }
+  }
+
+  @keyframes fadeUp{
+    from{ opacity: 0; transform: translateY(22px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn{
+    from{ opacity: 0; }
+    to{ opacity: 1; }
+  }
+
+  @keyframes scaleIn{
+    from{ opacity: 0; transform: scale(0.85); }
+    to{ opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes lineGrow{
+    from{ width: 0; opacity: 0; }
+    to{ width: 44px; opacity: 1; }
+  }
+
+  @keyframes pulseGlow{
+    0%,100%{ box-shadow: 0 8px 24px rgba(216,184,119,0.3); }
+    50%{ box-shadow: 0 8px 32px rgba(216,184,119,0.55); }
+  }
+
+  @keyframes numberTick{
+    0%{ opacity: 0.4; transform: translateY(-6px); }
+    100%{ opacity: 1; transform: translateY(0); }
+  }
+
+  /* hero entrance sequence */
+  .logo-wrap{ animation: scaleIn 0.7s ease both; }
+  .eyebrow{ animation: fadeUp 0.7s ease both 0.15s; }
+  .hero h1{ animation: fadeUp 0.8s ease both 0.28s; }
+  .hero .sub{ animation: fadeUp 0.8s ease both 0.42s; }
+  .hero .divider{ animation: lineGrow 0.8s ease both 0.56s; }
+  .hero .badge-row{ animation: fadeUp 0.8s ease both 0.68s; }
+  .mini-badge{ transition: transform 0.2s ease, background 0.2s ease; }
+  .mini-badge:hover{ transform: translateY(-3px); background: rgba(255,255,255,0.11); }
+
+  /* scroll-reveal for sections */
+  .reveal{
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.is-visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* card hover lift */
+  .detail-card, .about-card, .notes-card, .time-strip, .countdown-card, .rsvp{
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .detail-card:hover, .about-card:hover, .notes-card:hover, .time-strip:hover, .countdown-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+
+  .countdown-unit .num{ animation: numberTick 0.4s ease; }
+
+  .rsvp-submit{ transition: transform 0.2s ease, box-shadow 0.2s ease; }
+
+  .logo-frame{ transition: transform 0.4s ease; }
+  .logo-frame:hover{ transform: scale(1.06) rotate(2deg); }
+
+  .wrap{
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 20px 80px;
+  }
+
+  /* LOGO */
+  .logo-wrap{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+  .logo-frame{
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    box-shadow:
+      0 8px 28px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.22),
+      0 0 24px rgba(216,184,119,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px;
+  }
+  .logo-frame img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+  .logo-frame .logo-fallback{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--text-soft);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .institute-name{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.18rem;
+    letter-spacing: 0.01em;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    animation: fadeUp 0.7s ease both 0.05s;
+  }
+  .institute-sub{
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 500;
+    margin-bottom: 20px;
+    animation: fadeUp 0.7s ease both 0.1s;
+  }
+
+  /* HERO */
+  .hero{
+    text-align: center;
+    padding: 36px 24px 44px;
+  }
+
+  .eyebrow{
+    display: inline-block;
+    font-size: 0.74rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--gold-soft);
+    font-weight: 500;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  .hero h1{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(2.4rem, 8vw, 4rem);
+    line-height: 1.12;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em{
+    font-style: italic;
+    font-weight: 500;
+    background: linear-gradient(100deg, var(--gold-soft), var(--teal));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero .sub{
+    margin-top: 20px;
+    font-size: 1.04rem;
+    color: var(--text-soft);
+    font-weight: 300;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.75;
+  }
+
+  .hero .divider{
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 26px auto 0;
+  }
+
+  .hero .badge-row{
+    margin-top: 26px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .mini-badge{
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text-soft);
+  }
+
+  /* GLASS PANEL BASE */
+  .glass{
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 22px;
+    backdrop-filter: blur(20px) saturate(130%);
+    -webkit-backdrop-filter: blur(20px) saturate(130%);
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.18);
+    position: relative;
+    overflow: hidden;
+  }
+  .glass::before{
+    content:"";
+    position: absolute;
+    top: -40%; left: -20%;
+    width: 60%; height: 180%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.10), transparent 60%);
+    transform: rotate(18deg);
+    pointer-events: none;
+  }
+
+  section{ margin-top: 32px; }
+
+  .section-label{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.32rem;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-main);
+  }
+  .section-label .dot{
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(216,184,119,0.6);
+    flex-shrink: 0;
+  }
+
+  /* ABOUT */
+  .about-card{
+    padding: 28px 26px;
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--text-soft);
+  }
+  .about-card strong{ color: #fff; font-weight: 600; }
+  .about-card .salutation{
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--gold-soft);
+    margin-bottom: 12px;
+  }
+
+  /* DETAILS GRID */
+  .details-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .detail-card{
+    padding: 22px 20px;
+    text-align: left;
+  }
+  .detail-card .label{
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .detail-card .value{
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+  }
+  .detail-card .value small{
+    display: block;
+    font-weight: 400;
+    font-size: 0.84rem;
+    color: var(--text-soft);
+    margin-top: 4px;
+  }
+  .detail-card.wide{ grid-column: 1 / -1; }
+
+  /* TIMELINE (start / end) */
+  .time-strip{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 26px;
+    gap: 14px;
+  }
+  .time-block{ text-align: center; flex: 1; }
+  .time-block .t-label{
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 8px;
+  }
+  .time-block .t-value{
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--gold-soft);
+  }
+  .time-arrow{
+    font-size: 1.2rem;
+    color: var(--text-soft);
+    flex-shrink: 0;
+  }
+
+  /* NOTES */
+  .notes-card{
+    padding: 24px 26px;
+    color: var(--text-soft);
+    font-size: 0.96rem;
+    line-height: 1.95;
+  }
+  .notes-card ul{ padding-left: 20px; }
+  .notes-card li{ margin-bottom: 7px; }
+  .notes-card li::marker{ color: var(--gold); }
+
+  /* COUNTDOWN */
+  .countdown-card{
+    padding: 30px 26px 28px;
+    text-align: center;
+  }
+  .countdown-title{
+    font-size: 0.74rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 20px;
+  }
+  .countdown-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .countdown-unit{
+    padding: 16px 6px;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+  }
+  .countdown-unit .num{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+    color: var(--gold-soft);
+    line-height: 1;
+  }
+  .countdown-unit .unit-label{
+    margin-top: 8px;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+  }
+
+  /* RSVP */
+  .rsvp{
+    padding: 34px 28px 30px;
+    text-align: center;
+  }
+  .rsvp h2{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  .rsvp p.hint{
+    color: var(--text-soft);
+    margin-bottom: 24px;
+    font-size: 0.94rem;
+  }
+  .rsvp-form{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    text-align: left;
+  }
+  .rsvp-form label{
+    font-size: 0.76rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
+  }
+  .rsvp-form input[type="text"],
+  .rsvp-form input[type="tel"],
+  .rsvp-form select{
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.96rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .rsvp-form input::placeholder{ color: rgba(255,255,255,0.4); }
+  .rsvp-form input:focus,
+  .rsvp-form select:focus{
+    border-color: var(--teal);
+    background: rgba(255,255,255,0.10);
+  }
+  .rsvp-form select option{ background: #12213d; color: #fff; }
+
+  .rsvp-submit{
+    margin-top: 8px;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: #10192f;
+    background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(216,184,119,0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .rsvp-submit:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(216,184,119,0.42);
+  }
+  .rsvp-submit:focus-visible,
+  .rsvp-form input:focus-visible,
+  .rsvp-form select:focus-visible{
+    outline: 2px solid var(--teal);
+    outline-offset: 2px;
+  }
+
+  .rsvp-success{
+    display: none;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: rgba(95,216,207,0.12);
+    border: 1px solid rgba(95,216,207,0.35);
+    color: #d7f7f4;
+    font-size: 0.92rem;
+  }
+
+  .rsvp-error{
+    display: none;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: rgba(230,120,120,0.12);
+    border: 1px solid rgba(230,120,120,0.35);
+    color: #ffd9d9;
+    font-size: 0.92rem;
+  }
+
+  footer{
+    text-align: center;
+    margin-top: 46px;
+    color: var(--text-soft);
+    font-size: 0.8rem;
+  }
+
+  .signature-block{
+    margin-bottom: 14px;
+  }
+  .sig-line{
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+  .sig-name{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--gold-soft);
+  }
+  .sig-college{
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    margin-top: 2px;
+  }
+  .contact-line{
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    opacity: 0.85;
+  }
+  .contact-email{
+    color: var(--teal);
+  }
+  .footer-rule{
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+    margin: 18px auto;
+  }
+  .footer-fine{
+    font-size: 0.72rem;
+    opacity: 0.55;
+    letter-spacing: 0.01em;
+  }
+
+  .rsvp-deadline{
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 0.86rem;
+    color: var(--gold-soft);
+    font-weight: 500;
+  }
+
+  @media (max-width: 520px){
+    .details-grid{ grid-template-columns: 1fr; }
+    .time-strip{ flex-direction: column; }
+    .time-arrow{ transform: rotate(90deg); }
+    .countdown-grid{ gap: 8px; }
+    .countdown-unit{ padding: 12px 4px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .blob{ animation: none; }
+    .logo-wrap, .eyebrow, .hero h1, .hero .sub, .hero .divider, .hero .badge-row,
+    .countdown-unit .num, .rsvp-submit{
+      animation: none !important;
+    }
+    .reveal{
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+
+  <div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="logo-wrap">
+        <div class="logo-frame">
+          <!-- Place your college logo here: <img src="logo.png" alt="College Logo"> -->
+          <img src="logo.png" alt="College Logo">
+        </div>
+      </div>
+      <div class="institute-name">Bhubaneswar Engineering College &amp; Technology</div>
+      <div class="institute-sub">Student Welfare Committee</div>
+      <span class="eyebrow">You Are Cordially Invited</span>
+      <h1>Fresher's<br><em>Welcome Party</em></h1>
+      <p class="sub">The Student Welfare Committee, on behalf of the institution, cordially invites you to the annual Fresher's Welcome Party — an evening to formally welcome our incoming batch into the campus community.</p>
+      <div class="divider"></div>
+      <div class="badge-row">
+        <span class="mini-badge">Live Music</span>
+        <span class="mini-badge">Refreshments</span>
+        <span class="mini-badge">Performances</span>
+        <span class="mini-badge">Networking</span>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section class="reveal">
+      <div class="section-label"><span class="dot"></span>About the Event</div>
+      <div class="glass about-card">
+        <p class="salutation">Dear Student,</p>
+        This gathering is organized to formally welcome our <strong>new students</strong> and mark the beginning of their journey on campus. The evening will include live music, student performances, light refreshments, and dedicated time for freshers and seniors to connect. It is an opportunity for new students to meet faculty, seniors, and peers in a relaxed, welcoming setting as they begin this new chapter. Your presence would be a valued addition to the occasion.
+      </div>
+    </section>
+
+    <!-- DETAILS -->
+    <section class="reveal">
+      <div class="section-label"><span class="dot"></span>Event Details</div>
+      <div class="details-grid">
+        <div class="glass detail-card reveal" style="transition-delay:0.05s">
+          <div class="label">Date</div>
+          <div class="value">Saturday, 29 August 2026</div>
+        </div>
+        <div class="glass detail-card reveal" style="transition-delay:0.15s">
+          <div class="label">Venue</div>
+          <div class="value">College Auditorium<small>Main Campus, Ground Floor</small></div>
+        </div>
+        <div class="glass detail-card wide reveal" style="transition-delay:0.25s">
+          <div class="label">Dress Code</div>
+          <div class="value">Smart Casual<small>Formal / semi-formal attire recommended</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIME -->
+    <section class="reveal">
+      <div class="section-label"><span class="dot"></span>Timing</div>
+      <div class="glass time-strip">
+        <div class="time-block">
+          <div class="t-label">Starting Time</div>
+          <div class="t-value">6:00 PM</div>
+        </div>
+        <div class="time-arrow">&#8594;</div>
+        <div class="time-block">
+          <div class="t-label">Ending Time</div>
+          <div class="t-value">10:00 PM</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTES -->
+    <section class="reveal">
+      <div class="section-label"><span class="dot"></span>Things to Keep in Mind</div>
+      <div class="glass notes-card">
+        <ul>
+          <li>Please carry your college ID card for entry.</li>
+          <li>Arrive on time so you don't miss the opening remarks and performances.</li>
+          <li>Photography and videography are permitted inside the venue.</li>
+          <li>For any assistance, please contact the event coordinator.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="reveal">
+      <div class="section-label"><span class="dot"></span>Countdown to the Event</div>
+      <div class="glass countdown-card">
+        <div class="countdown-title">Time Remaining</div>
+        <div class="countdown-grid">
+          <div class="countdown-unit">
+            <div class="num" id="cd-days">00</div>
+            <div class="unit-label">Days</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="num" id="cd-hours">00</div>
+            <div class="unit-label">Hours</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="num" id="cd-mins">00</div>
+            <div class="unit-label">Minutes</div>
+          </div>
+          <div class="countdown-unit">
+            <div class="num" id="cd-secs">00</div>
+            <div class="unit-label">Seconds</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="reveal">
+      <div class="glass rsvp">
+        <h2>RSVP</h2>
+        <p class="hint">Kindly confirm your attendance using the form below.<br><span class="rsvp-deadline">Please RSVP on or before Friday, 28 August 2026.</span></p>
+        <form class="rsvp-form" id="rsvpForm" action="https://formspree.io/f/xbgrbkpb" method="POST">
+          <div>
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+          </div>
+          <div>
+            <label for="phone">Mobile Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="10-digit number" pattern="[0-9]{10}" required>
+          </div>
+          <div>
+            <label for="attending">Will you be attending?</label>
+            <select id="attending" name="attending" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="Yes, I will attend">Yes, I will attend</option>
+              <option value="Maybe, I will try to attend">Maybe, I will try to attend</option>
+              <option value="No, I am unable to attend">No, I am unable to attend</option>
+            </select>
+          </div>
+          <input type="hidden" name="_subject" value="New Fresher's Party RSVP">
+          <button type="submit" class="rsvp-submit" id="rsvpSubmitBtn">Confirm RSVP</button>
+        </form>
+        <div class="rsvp-success" id="rsvpSuccess">Thank you. Your RSVP has been recorded and we look forward to welcoming you.</div>
+        <div class="rsvp-error" id="rsvpError">Something went wrong while sending your RSVP. Please try again in a moment.</div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="signature-block">
+        <div class="sig-line">Issued by</div>
+        <div class="sig-name">Student Welfare Committee</div>
+        <div class="sig-college">Bhubaneswar Engineering College &amp; Technology</div>
+      </div>
+      <div class="contact-line">For queries, contact the event coordinator at <span class="contact-email">info@becbbsr.ac.in</span></div>
+      <div class="footer-rule"></div>
+      <div class="footer-fine">This invitation is issued on behalf of the institution and is non-transferable.</div>
+    </footer>
+
+  </div>
+
+<script>
+  const rsvpForm = document.getElementById('rsvpForm');
+  const rsvpSuccess = document.getElementById('rsvpSuccess');
+  const rsvpError = document.getElementById('rsvpError');
+  const rsvpSubmitBtn = document.getElementById('rsvpSubmitBtn');
+
+  rsvpForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    rsvpSuccess.style.display = 'none';
+    rsvpError.style.display = 'none';
+    rsvpSubmitBtn.disabled = true;
+    const originalLabel = rsvpSubmitBtn.textContent;
+    rsvpSubmitBtn.textContent = 'Sending...';
+
+    const formData = new FormData(rsvpForm);
+
+    fetch(rsvpForm.action, {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(response){
+      if (response.ok){
+        rsvpSuccess.style.display = 'block';
+        rsvpForm.reset();
+      } else {
+        rsvpError.style.display = 'block';
+      }
+    })
+    .catch(function(){
+      rsvpError.style.display = 'block';
+    })
+    .finally(function(){
+      rsvpSubmitBtn.disabled = false;
+      rsvpSubmitBtn.textContent = originalLabel;
+    });
+  });
+
+  // Countdown to event: 5 September 2026, 6:00 PM
+  const eventDate = new Date('2026-08-29T18:00:00');
+
+  function updateCountdown(){
+    const now = new Date();
+    let diff = eventDate - now;
+
+    if (diff <= 0){
+      document.getElementById('cd-days').textContent = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent = '00';
+      document.getElementById('cd-secs').textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Scroll-reveal animation for sections and cards
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
